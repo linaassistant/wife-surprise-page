@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For You ❤️</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(160deg, #1a0a0f 0%, #2d0f1a 40%, #4a1526 100%);
+    color: #f5e6e0;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* floating hearts */
+  .hearts { position: fixed; inset: 0; pointer-events: none; z-index: 1; overflow: hidden; }
+  .heart {
+    position: absolute; bottom: -40px; font-size: 22px; opacity: 0;
+    animation: floatUp linear infinite;
+    user-select: none;
+  }
+  @keyframes floatUp {
+    0%   { transform: translateY(0) scale(0.8); opacity: 0; }
+    10%  { opacity: 0.5; }
+    50%  { opacity: 0.7; }
+    100% { transform: translateY(-110vh) scale(1.2); opacity: 0; }
+  }
+
+  .container {
+    position: relative; z-index: 2;
+    max-width: 640px; margin: 0 auto;
+    padding: 48px 24px 80px;
+    display: flex; flex-direction: column; align-items: center;
+    text-align: center;
+  }
+
+  /* HERO */
+  .hero { margin-top: 6vh; }
+  .small-top {
+    font-size: 12px; letter-spacing: 5px; text-transform: uppercase;
+    color: #d9a0a0; margin-bottom: 18px;
+  }
+  .names {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(34px, 8vw, 56px);
+    font-weight: 600;
+    color: #fff;
+    text-shadow: 0 0 40px rgba(255, 120, 140, 0.35);
+  }
+  .names .amp { font-style: italic; color: #e8a2a2; padding: 0 8px; font-weight: 400; }
+  .tagline {
+    margin-top: 16px; font-size: 15px; font-weight: 300; color: #ecc9c4;
+    letter-spacing: 0.4px;
+  }
+
+  .divider { width: 60px; height: 1px; background: linear-gradient(90deg, transparent, #d98a8a, transparent); margin: 34px auto; }
+
+  /* CARD */
+  .card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    padding: 36px 28px;
+    width: 100%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+  }
+  .card h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px; font-weight: 500; margin-bottom: 8px; color: #fff;
+  }
+  .card .sub { font-size: 13px; color: #cfa3a3; margin-bottom: 24px; }
+
+  /* ILY BUTTON */
+  .ily-btn {
+    font-family: 'Inter', sans-serif;
+    font-size: 17px; font-weight: 500;
+    color: #fff;
+    background: linear-gradient(135deg, #c2185b, #e91e63, #ad1457);
+    background-size: 200% 200%;
+    border: none; border-radius: 60px;
+    padding: 16px 44px;
+    cursor: pointer;
+    box-shadow: 0 10px 35px rgba(233, 30, 99, 0.45);
+    transition: all 0.3s ease;
+    animation: pulse 2.5s ease-in-out infinite;
+  }
+  .ily-btn:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 15px 45px rgba(233,30,99,0.6); }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 10px 35px rgba(233,30,99,0.4); }
+    50% { box-shadow: 0 10px 50px rgba(233,30,99,0.75); }
+  }
+  .ily-msg {
+    margin-top: 18px; min-height: 52px;
+    font-family: 'Playfair Display', serif;
+    font-style: italic; font-size: 17px; color: #ffd9d9;
+    opacity: 0; transition: opacity 0.5s ease;
+  }
+  .ily-msg.show { opacity: 1; }
+
+  /* BURST animation layer */
+  .burst-layer { position: fixed; inset: 0; pointer-events: none; z-index: 5; }
+  .burst {
+    position: absolute; font-size: 26px;
+    animation: burstAnim 1.2s ease-out forwards;
+  }
+  @keyframes burstAnim {
+    0% { transform: translate(-50%, -50%) scale(0.4); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(2.4) translateY(-60px); opacity: 0; }
+  }
+
+  /* REASONS flip cards */
+  .reasons-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 8px;
+  }
+  .flip { perspective: 900px; height: 150px; cursor: pointer; }
+  .flip-inner {
+    position: relative; width: 100%; height: 100%;
+    transition: transform 0.6s; transform-style: preserve-3d;
+  }
+  .flip.flipped .flip-inner { transform: rotateY(180deg); }
+  .flip-face {
+    position: absolute; inset: 0;
+    backface-visibility: hidden; -webkit-backface-visibility: hidden;
+    border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+    padding: 16px;
+    border: 1px solid rgba(255,255,255,0.14);
+    background: rgba(255,255,255,0.06);
+  }
+  .flip-front { font-family: 'Playfair Display', serif; font-size: 16px; color: #ffd9d9; }
+  .flip-back {
+    transform: rotateY(180deg);
+    background: linear-gradient(135deg, #c2185b, #ad1457);
+    font-size: 14px; line-height: 1.5; color: #fff;
+  }
+
+  /* VIDEO FINALE */
+  .video-placeholder {
+    width: 100%; aspect-ratio: 16/9;
+    border-radius: 16px;
+    border: 2px dashed rgba(255,255,255,0.25);
+    background: rgba(0,0,0,0.3);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 10px; color: #d9a0a0; font-size: 14px;
+  }
+
+  footer { margin-top: 60px; font-size: 12px; color: #8f6a6a; font-style: italic; }
+
+  @media (max-width: 480px) {
+    .reasons-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hearts" id="hearts"></div>
+<div class="burst-layer" id="burstLayer"></div>
+
+<div class="container">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="small-top">A Little Surprise</div>
+    <h1 class="names"><span id="nameHim">Zain</span><span class="amp">&</span><span id="nameHer">[Her Name]</span></h1>
+    <p class="tagline" id="tagline">Some things are better said from the heart…</p>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- LOVE BUTTON -->
+  <section class="card">
+    <h2>Ek Baat Kehni Hai</h2>
+    <p class="sub">Button dabayen — dil ki baat niklegi</p>
+    <button class="ily-btn" id="ilyBtn">Tap for a surprise 💌</button>
+    <div class="ily-msg" id="ilyMsg"></div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- REASONS -->
+  <section class="card">
+    <h2>Reasons I Love You</h2>
+    <p class="sub">Har card ko tap karein</p>
+    <div class="reasons-grid" id="reasonsGrid">
+      <div class="flip"><div class="flip-inner">
+        <div class="flip-face flip-front">Reason #1</div>
+        <div class="flip-face flip-back">Your smile makes everything better.</div>
+      </div></div>
+      <div class="flip"><div class="flip-inner">
+        <div class="flip-face flip-front">Reason #2</div>
+        <div class="flip-face flip-back">You believe in me, even when I doubt myself.</div>
+      </div></div>
+      <div class="flip"><div class="flip-inner">
+        <div class="flip-face flip-front">Reason #3</div>
+        <div class="flip-face flip-back">Home is wherever you are.</div>
+      </div></div>
+      <div class="flip"><div class="flip-inner">
+        <div class="flip-face flip-front">Reason #4</div>
+        <div class="flip-face flip-back">Every day with you is my favourite day.</div>
+      </div></div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- FINALE (VIDEO will go here) -->
+  <section class="card" id="finaleSection">
+    <h2>One Last Thing…</h2>
+    <p class="sub">Video yahan aayegi — final surprise 🎬</p>
+    <div class="video-placeholder" id="videoSlot">
+      <span style="font-size:40px">🎬</span>
+      <span>Video placeholder — Zain ka video yahan chalega</span>
+    </div>
+  </section>
+
+  <footer>Made with ❤️ — just for you</footer>
+</div>
+
+<script>
+  // Floating hearts
+  const heartsEl = document.getElementById('hearts');
+  const symbols = ['❤','💕','🌹','💖','✨'];
+  for (let i = 0; i < 18; i++) {
+    const s = document.createElement('span');
+    s.className = 'heart';
+    s.textContent = symbols[i % symbols.length];
+    s.style.left = Math.random() * 100 + 'vw';
+    s.style.fontSize = (14 + Math.random() * 22) + 'px';
+    s.style.animationDuration = (7 + Math.random() * 10) + 's';
+    s.style.animationDelay = (Math.random() * 8) + 's';
+    heartsEl.appendChild(s);
+  }
+
+  // ILY button
+  const btn = document.getElementById('ilyBtn');
+  const msg = document.getElementById('ilyMsg');
+  const burstLayer = document.getElementById('burstLayer');
+  const messages = [
+    'I love you more than words can ever say ❤️',
+    'You are my today and all of my tomorrows 💕',
+    'My heart found its home in you 🌹',
+    'Every love story is beautiful, but ours is my favourite ✨',
+    'Thank you for being my everything 💖'
+  ];
+  let mi = 0;
+  btn.addEventListener('click', (e) => {
+    msg.textContent = messages[mi % messages.length];
+    msg.classList.add('show');
+    // burst
+    const rect = btn.getBoundingClientRect();
+    for (let i = 0; i < 10; i++) {
+      const b = document.createElement('span');
+      b.className = 'burst';
+      b.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+      b.style.left = (rect.left + rect.width / 2 + (Math.random() - 0.5) * 160) + 'px';
+      b.style.top = (rect.top + rect.height / 2 + (Math.random() - 0.5) * 60) + 'px';
+      b.style.fontSize = (16 + Math.random() * 22) + 'px';
+      burstLayer.appendChild(b);
+      setTimeout(() => b.remove(), 1300);
+    }
+    mi++;
+  });
+
+  // Flip cards
+  document.querySelectorAll('.flip').forEach(card => {
+    card.addEventListener('click', () => card.classList.toggle('flipped'));
+  });
+</script>
+</body>
+</html>
