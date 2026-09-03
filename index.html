@@ -510,15 +510,14 @@ reasons.forEach((r,i)=>{
   grid.appendChild(c);
 });
 
-// saare cards open hote hi agla page (timeline)
+// saare cards open hote hi FORAN agla page (timeline) — koi delay nahi
 let cardsAdvanced = false;
 function checkAllFlipped(){
   if (cardsAdvanced) return;
   const flippedCount = allCards.filter(c=>c.classList.contains('flipped')).length;
   if (flippedCount === allCards.length){
     cardsAdvanced = true;
-    toast('Saare reasons mil gaye… ab humari kahani 💜');
-    setTimeout(()=>showPage('page-timeline'), 1500);
+    showPage('page-timeline');
   }
 }
 
