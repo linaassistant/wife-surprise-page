@@ -248,9 +248,10 @@
   <p class="kicker">Ek aur sawal…</p>
   <p class="q">Kya main aapko kabhi bore karta hoon? 🙈</p>
   <div class="btn-row" id="q2Row">
+    <button class="btn pink" id="q2Yes" style="min-width:130px;">Yes ❤️</button>
     <button class="btn ghost" id="q2No" style="min-width:130px;">No 😜</button>
   </div>
-  <p class="sub" id="q2Hint" style="margin-top:18px; font-size:13px;">(sahi jawab hi dabayen bubu 😌)</p>
+  <p class="sub" id="q2Hint" style="margin-top:18px; font-size:13px;">(dono mein se koi bhi dabayen… dono bhaagenge 😄)</p>
 </section>
 
 <!-- ============ PAGE 5 : WHY I LOVE YOU (flip cards) ============ -->
@@ -459,16 +460,23 @@ function goAfterQ1(){
 }
 
 /* ================= Q2 : NO-type (5 NO presses) ================= */
+const q2Row = $('#q2Row');
+const q2Yes = $('#q2Yes');
 const q2No = $('#q2No');
 let q2Count = 0;
 const q2NoLabels = ['No 😜','Nahi nahi 😄','Pakka? 🙈','Hmm… soch rahi hoon 😏','Chalo maan liya 😌💜'];
-q2No.addEventListener('pointerdown', (e)=>{
-  e.preventDefault();
+const q2YesLabels = ['Yes ❤️','Pakdo mujhe 😜','Yahan 😆','Nahi milegi 🙈','Aakhir mein Yes hi sahi 😌'];
+
+function q2Move(btn){
   if (q2Count >= 4) { goAfterQ2(); return; }
   q2Count++;
-  q2No.textContent = q2NoLabels[q2Count];
-  runaway(q2No);  // press karte hi poore screen mein bhaag jata hai
-});
+  if (btn === q2No) q2No.textContent = q2NoLabels[q2Count];
+  else q2Yes.textContent = q2YesLabels[q2Count];
+  runaway(q2Yes);
+  runaway(q2No);
+}
+q2Yes.addEventListener('pointerdown', (e)=>{ e.preventDefault(); q2Move(q2Yes); });
+q2No.addEventListener('pointerdown', (e)=>{ e.preventDefault(); q2Move(q2No); });
 function goAfterQ2(){
   showPage('page-cards');
 }
