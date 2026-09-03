@@ -35,13 +35,14 @@
 
   /* purple front family */
   .pg-purple .bg { background: linear-gradient(160deg, #1a0738 0%, #331066 45%, #581c87 100%); }
-  .pg-purple .shade { background: rgba(20, 4, 40, 0.25); }
+  .pg-purple .shade { background: rgba(20, 4, 40, 0.35); }
   .pg-deep .bg { background: linear-gradient(165deg, #240a4e, #3b1172 50%, #701a75); }
-  .pg-deep .shade { background: rgba(15, 2, 34, 0.35); }
+  .pg-deep .shade { background: rgba(15, 2, 34, 0.45); }
   .pg-soft .bg { background: linear-gradient(165deg, #3b0d6b, #6d28d9 55%, #a21caf); }
-  .pg-soft .shade { background: rgba(25, 3, 55, 0.3); }
+  .pg-soft .shade { background: rgba(25, 3, 55, 0.45); }
   .pg-glow .bg { background: radial-gradient(1200px 700px at 70% -10%, #7c3aed 0%, #4c1d95 45%, #2e1065 100%); }
-  .pg-glow .shade { background: rgba(15, 2, 34, 0.2); }
+  .pg-glow .shade { background: rgba(15, 2, 34, 0.4); }
+  .bg-photo { background-size: cover !important; background-position: center !important; }
 
   /* floating hearts */
   .float-hearts { position: absolute; inset: 0; pointer-events: none; z-index: 1; overflow: hidden; }
@@ -135,11 +136,11 @@
   /* ===== PAGE 5 : TIMELINE sticky notes ===== */
   .notes { display: flex; flex-direction: column; align-items: center; gap: 26px; width: 100%; max-width: 520px; margin-top: 26px; padding-bottom: 20px; }
   .note {
-    width: min(88%, 380px);
+    width: min(80%, 320px);
     background: #fef3c7;
     color: #5b3a00;
     border-radius: 4px;
-    padding: 20px 18px 24px;
+    padding: 14px 12px 18px;
     font-family: 'Inter', sans-serif;
     box-shadow: 0 8px 22px rgba(0,0,0,.35);
     position: relative;
@@ -150,20 +151,21 @@
   }
   .note:nth-child(even) { transform: rotate(1.8deg); background: #fce7f3; color: #831843; }
   .note:nth-child(3n) { background: #ede9fe; color: #4c1d95; }
+  .note:nth-child(4n) { background: #ffedd5; color: #7c2d12; }
+  .note:nth-child(5n) { background: #dcfce7; color: #14532d; }
   .note:hover { transform: scale(1.03) rotate(0deg); }
   .note .tape {
     position: absolute; top: -12px; left: 50%; transform: translateX(-50%) rotate(-3deg);
     background: rgba(255,255,255,.55); width: 86px; height: 24px;
     box-shadow: 0 2px 6px rgba(0,0,0,.15);
   }
-  .note .n-date { font-weight: 700; font-size: 15px; letter-spacing: .3px; }
-  .note .n-cap { font-size: 13.5px; margin-top: 6px; font-style: italic; line-height: 1.5; }
+  .note .n-date { font-weight: 700; font-size: 14px; letter-spacing: .3px; }
+  .note .n-cap { font-size: 13px; margin-top: 5px; font-style: italic; line-height: 1.45; }
   .note .n-photo {
-    width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 6px; margin-top: 12px;
-    display: none; background: #fff;
+    width: 100%; aspect-ratio: 3/4; object-fit: cover; border-radius: 4px; margin-top: 10px;
+    display: none; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,.18);
   }
   .note.has-photo .n-photo { display: block; }
-  .note .n-ph-holder { margin-top: 12px; font-size: 12px; opacity: .55; font-style: italic; }
 
   /* ===== PAGE 6 : BIG SURPRISE ===== */
   .surprise-emoji { font-size: 72px; filter: drop-shadow(0 0 30px rgba(240,171,252,.6)); animation: beat 1.4s infinite; }
@@ -452,9 +454,6 @@ q1No.addEventListener('click', ()=>{
 });
 
 function goAfterQ1(){
-  const bg = $('#bg-q2');
-  const cfg = BGS[Math.floor(Math.random()*BGS.length)];
-  if (bg && cfg) bg.style.background = 'url("'+cfg+'") center/cover no-repeat';
   showPage('page-q2');
 }
 
@@ -501,10 +500,13 @@ reasons.forEach((r,i)=>{
 
 /* ================= TIMELINE sticky notes ================= */
 const notes = [
-  { d:'9 Feb 2020', c:'Jahan se sab shuru hua — keemti tarikh ❤️', ph:null },
-  { d:'Pehli Mulaqat', c:'Jab pehli baar dekha… aur dil ne kaha: yehi hai.', ph:null },
-  { d:'Sath Ke Lamhe', c:'Har din, har pal — aapke saath sab kuch behtar hai.', ph:null },
-  { d:'Aaj Tak', c:'Har roz aapse pehle se zyada pyar… aur ye silsila kabhi rukega nahi.', ph:null },
+  { d:'9 Feb 2020', c:'Jahan se sab shuru hua — keemti tarikh ❤️', ph:'assets/photos/photo_01.jpg' },
+  { d:'Pehli Mulaqat', c:'Jab pehli baar dekha… aur dil ne kaha: yehi hai.', ph:'assets/photos/photo_02.jpg' },
+  { d:'Sath Ke Lamhe', c:'Har din, har pal — aapke saath sab kuch behtar hai.', ph:'assets/photos/photo_03.jpg' },
+  { d:'Muskaan', c:'Aapki smile — meri sab se pyari cheez.', ph:'assets/photos/photo_04.jpg' },
+  { d:'Hamari Kahani', c:'Har photo ek kahani — aur har kahani mein aap.', ph:'assets/photos/photo_05.jpg' },
+  { d:'Pyar Bhare Lamhe', c:'Ye lamhe hamesha mere dil ke kareeb hain.', ph:'assets/photos/photo_06.jpg' },
+  { d:'Aaj Tak', c:'Har roz aapse pehle se zyada pyar… aur ye silsila kabhi rukega nahi.', ph:'assets/photos/photo_07.jpg' },
 ];
 const notesWrap = $('#notesWrap');
 notes.forEach((n)=>{
@@ -513,7 +515,7 @@ notes.forEach((n)=>{
   el.innerHTML = '<div class="tape"></div>'+
     '<div class="n-date">'+n.d+'</div>'+
     '<div class="n-cap">'+n.c+'</div>'+
-    (n.ph ? '<img class="n-photo" src="'+n.ph+'" alt="photo">' : '<div class="n-ph-holder">📸 photo yahan aayegi</div>');
+    (n.ph ? '<img class="n-photo" src="'+n.ph+'" alt="photo" loading="lazy">' : '');
   notesWrap.appendChild(el);
 });
 
@@ -545,8 +547,20 @@ vid.addEventListener('error', ()=>{
 
 /* ================= END PAGE (sticker yahan) ================= */
 
-/* background pools — Zain ki photos aane par yahan add hongi */
-const BGS = [];
+/* background pools — Zain ki photos har page ke liye */
+const BGS = {
+  'bg-heart':    'assets/photos/photo_08.jpg',
+  'bg-names':    'assets/photos/photo_09.jpg',
+  'bg-q2':       'assets/photos/photo_10.jpg',
+  'bg-cards':    'assets/photos/photo_11.jpg',
+  'bg-timeline': 'assets/photos/photo_12.jpg',
+  'bg-surprise': 'assets/photos/photo_13.jpg',
+  'bg-end':      'assets/photos/photo_14.jpg',
+};
+for (const [id, img] of Object.entries(BGS)) {
+  const el = document.getElementById(id);
+  if (el) { el.style.backgroundImage = 'url(\'' + img + '\')'; el.classList.add('bg-photo'); }
+}
 </script>
 </body>
 </html>
