@@ -503,7 +503,7 @@ reasons.forEach((r,i)=>{
     '<div class="flip-face flip-front"><span class="emoji">'+r.e+'</span><span>'+r.t+'</span></div>'+
     '<div class="flip-face flip-back">'+r.d+'</div></div>';
   c.addEventListener('click', ()=>{
-    c.classList.toggle('flipped');
+    c.classList.add('flipped');  // ek baar khula to khula hi rahega
     checkAllFlipped();
   });
   allCards.push(c);
