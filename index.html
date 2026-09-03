@@ -495,15 +495,32 @@ const reasons = [
   { e:'💫', t:'Bas Aap', d:'Koi reason nahi chahiye… dil kehta hai, aur dil kabhi galat nahi hota. I love you.' },
 ];
 const grid = $('#cardsGrid');
+const allCards = [];
 reasons.forEach((r,i)=>{
   const c = document.createElement('div');
   c.className = 'flip';
   c.innerHTML = '<div class="flip-inner">'+
     '<div class="flip-face flip-front"><span class="emoji">'+r.e+'</span><span>'+r.t+'</span></div>'+
     '<div class="flip-face flip-back">'+r.d+'</div></div>';
-  c.addEventListener('click', ()=>c.classList.toggle('flipped'));
+  c.addEventListener('click', ()=>{
+    c.classList.toggle('flipped');
+    checkAllFlipped();
+  });
+  allCards.push(c);
   grid.appendChild(c);
 });
+
+// saare cards open hote hi agla page (timeline)
+let cardsAdvanced = false;
+function checkAllFlipped(){
+  if (cardsAdvanced) return;
+  const flippedCount = allCards.filter(c=>c.classList.contains('flipped')).length;
+  if (flippedCount === allCards.length){
+    cardsAdvanced = true;
+    toast('Saare reasons mil gaye… ab humari kahani 💜');
+    setTimeout(()=>showPage('page-timeline'), 1500);
+  }
+}
 
 /* ================= TIMELINE sticky notes ================= */
 const notes = [
