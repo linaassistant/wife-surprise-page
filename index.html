@@ -412,16 +412,17 @@ const q1YesLabels = ['Yess ❤️','Pakdo mujhe 😜','Yahan hoon 😆','Thora a
 const q1NoLabels  = ['No','Nahi 😢','Pakka no? 🥺','Soch lein bubu 🤔','Dil toot jayega 💔','Aakhri mauka 🙏','Ab NO bhi maan gaya 😅'];
 
 function runaway(b){
-  const row = b.parentElement;
-  const rw = row.getBoundingClientRect();
+  // poore screen mein random position — button ko pakarna mushkil, maza aayega
   const bw = b.getBoundingClientRect();
-  const maxX = rw.width - bw.width - 4;
-  const maxY = Math.max(0, (window.innerHeight*0.5) - bw.height);
-  const x = Math.max(0, Math.min(maxX, (Math.random()-0.5)*rw.width*0.9));
-  const y = Math.max(-maxY*0.6, Math.min(maxY, (Math.random()-0.5)*rw.height*2));
-  b.style.position = 'relative';
-  b.style.left = x+'px';
-  b.style.top = y+'px';
+  const maxX = Math.max(20, window.innerWidth  - bw.width  - 16);
+  const maxY = Math.max(20, window.innerHeight - bw.height - 16);
+  const x = Math.min(maxX, Math.max(8, Math.random() * maxX));
+  const y = Math.min(maxY, Math.max(8, Math.random() * maxY));
+  b.style.position = 'fixed';
+  b.style.left = x + 'px';
+  b.style.top  = y + 'px';
+  b.style.margin = '0';
+  b.style.zIndex = '60';
 }
 
 q1Yes.addEventListener('pointerdown', (e)=>{
@@ -449,8 +450,8 @@ let q1NoClicks = 0;
 q1No.addEventListener('click', ()=>{
   q1NoClicks++;
   q1No.textContent = q1NoLabels[Math.min(q1NoClicks, q1NoLabels.length-1)];
-  // No kabhi disappear nahi — sirf thora hilta hai
-  q1No.style.transform = 'translateX('+((Math.random()-0.5)*20)+'px)';
+  // No kabhi disappear nahi — press karne par screen mein kahin bhi bhaag jata hai
+  runaway(q1No);
 });
 
 function goAfterQ1(){
@@ -461,14 +462,12 @@ function goAfterQ1(){
 const q2No = $('#q2No');
 let q2Count = 0;
 const q2NoLabels = ['No 😜','Nahi nahi 😄','Pakka? 🙈','Hmm… soch rahi hoon 😏','Chalo maan liya 😌💜'];
-q2No.addEventListener('click', ()=>{
+q2No.addEventListener('pointerdown', (e)=>{
+  e.preventDefault();
   if (q2Count >= 4) { goAfterQ2(); return; }
   q2Count++;
   q2No.textContent = q2NoLabels[q2Count];
-  runaway(q2No);
-  if (q2Count === 4){
-    setTimeout(()=>{ q2No.textContent = 'Chalo maan liya 😌💜'; }, 400);
-  }
+  runaway(q2No);  // press karte hi poore screen mein bhaag jata hai
 });
 function goAfterQ2(){
   showPage('page-cards');
